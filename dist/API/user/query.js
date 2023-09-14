@@ -10,38 +10,67 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Query = void 0;
+const user_schema_1 = require("../../database/user_schema");
+const utils_1 = require("../../common/utils");
 class Query {
     constructor() {
-        this.getUser = () => __awaiter(this, void 0, void 0, function* () {
+        this.getUser = (body) => __awaiter(this, void 0, void 0, function* () {
             try {
-                return {
-                    firstname: "Vishal",
-                    lastname: "Lawte",
-                    email: "vpl@gmail.com",
-                    contact: "7219887387",
-                    birthdate: "30/09/1999",
-                };
+                const { perpage, page, sort } = body;
+                const result = yield user_schema_1.User.find()
+                    .skip(perpage * page - perpage)
+                    .limit(perpage)
+                    .sort(sort);
+                return result;
+                return result;
             }
             catch (error) {
                 throw new Error(error);
             }
         });
-        this.addUser = () => __awaiter(this, void 0, void 0, function* () {
+        this.getUserByUsername = (username) => __awaiter(this, void 0, void 0, function* () {
             try {
+                const result = yield user_schema_1.User.findOne({ username: username });
+                return result;
             }
             catch (error) {
                 throw new Error(error);
             }
         });
-        this.updateUser = () => __awaiter(this, void 0, void 0, function* () {
+        this.addUser = (body) => __awaiter(this, void 0, void 0, function* () {
             try {
+                const newUser = new user_schema_1.User({
+                    firstname: body.firstname,
+                    lastname: body.lastname,
+                    email: body.email,
+                    contact: body.contact,
+                    birthDate: body.birthdate,
+                    username: body.username,
+                    password: yield utils_1.utils.passwordEncrypt(body.password),
+                });
+                const result = yield newUser.save();
+                return result;
+            }
+            catch (error) {
+                throw error;
+            }
+        });
+        this.updateUser = (username, body) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                if (body.password != undefined) {
+                    body.password = yield utils_1.utils.passwordEncrypt(body.password);
+                }
+                const result = yield user_schema_1.User.findOneAndUpdate({ username: username }, body, { new: true });
+                return result;
             }
             catch (error) {
                 throw new Error(error);
             }
         });
-        this.deleteUser = () => __awaiter(this, void 0, void 0, function* () {
+        this.deleteUser = (username) => __awaiter(this, void 0, void 0, function* () {
             try {
+                const result = yield user_schema_1.User.findOneAndDelete({ username: username });
+                return result;
             }
             catch (error) {
                 throw new Error(error);

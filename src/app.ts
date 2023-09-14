@@ -1,33 +1,48 @@
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
+import swaggerUi from "swagger-ui-express";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
 import http from "http";
-import socketIO from "socket.io";
-import { createServer } from "http";
+import { Server } from "socket.io";
+import { connectDb } from "./database/db_connection";
+import { specs } from "./swagger";
+connectDb();
 
 import { errror_handler } from "./common/middlewares/error_handler";
 
 const app = express();
 const server = http.createServer(app);
-//const io = socketIO(server);
+const io = new Server(server);
 
 // Middleware
 app.use(cors({ origin: "*" }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-// Database connection
-// mongoose.connect("mongodb://localhost/your_database_name", {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// });
 
-// mongoose.connection.on("connected", () => {
-//   console.log("Connected to MongoDB");
-// });
+//Custome namespace for number of communications
+const custome_namespace = io.of("/custome_namespace");
 
+// IO Socket Server connection
+custome_namespace.on("connection", (socket) => {
+  console.log("A user connected");
+  // Listen for events from the client
+  socket.on("chat message", (message) => {
+    console.log("Message from client: " + message);
+
+    // Broadcast the message to all connected clients
+    custome_namespace.emit("chat message", message);
+  });
+  //disconnect with client
+  socket.on("disconnect", () => {
+    console.log("User disconnected");
+  });
+});
+
+//request routes
 app.use("/api", require("./api"));
+// Use Swagger UI middleware to serve API documentation
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 app.use(errror_handler);
 
 // Start the server

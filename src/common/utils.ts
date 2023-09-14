@@ -5,7 +5,7 @@ const secretKey: any = process.env.SERCRET_KEY;
 export const utils = {
   jwtSign: async (payload: any) => {
     const option: any = {
-      expiresIn: "1d",
+      expiresIn: "30d",
     };
     const token = jwt.sign(payload, secretKey, option);
     return token;

@@ -9,17 +9,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verifyToken = void 0;
-const utils_1 = require("../../common/utils");
-const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
-    try {
-        const token = req.headers.authorization;
-        const result = yield utils_1.utils.jwtVerify((_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(" ")[1]);
-        next();
-    }
-    catch (error) {
-        next(error);
-    }
-});
-exports.verifyToken = verifyToken;
+exports.Controller = void 0;
+const service_1 = require("./service");
+const service = new service_1.Service();
+exports.Controller = {
+    login: (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const result = yield service.login(req.body);
+            res.status(result.statusCode).send(result);
+        }
+        catch (error) {
+            next(error);
+        }
+    }),
+};

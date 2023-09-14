@@ -1,40 +1,256 @@
 import { Service } from "./service";
 import { utils } from "../../common/utils";
 import { Request, Response, NextFunction } from "express";
-import { User } from "./model/user.model";
+import { UserInterface } from "./model/user.model";
 const service = new Service();
 export const Controller = {
-  getUser: async (req: Request, res: Response, next: NextFunction) => {
+  /**
+   * @swagger
+   * /api/user/list:
+   *   post:
+   *     summary: List user
+   *     requestBody:
+   *       description: User data
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               perpage:
+   *                 type: integer
+   *               page:
+   *                 type: integer
+   *               sort:
+   *                 properties:
+   *                    firstname:
+   *                      type: string
+   *             example:
+   *               perpage: 1
+   *               page: 1
+   *               sort: {
+   *                firstname : asc
+   *               }
+   *     responses:
+   *       200:
+   *        description: Suceess
+   *       500:
+   *         description: Internal Server Error
+   *       400:
+   *        description: Bad Request
+   *       401:
+   *         description: Unauthorized
+   */
+  getUser: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> => {
     try {
-      const result: User = (await service.getUser()) as User;
-      res.status(200).send({ message: "success", result: result });
+      const result: any = await service.getUser(req.body);
+      res.status(result.statusCode).send(result);
     } catch (error: any) {
       next(error);
     }
   },
+
+  /**
+   * @swagger
+   * /api/user/get/{username}:
+   *   get:
+   *     summary: Get user by username
+   *     parameters:
+   *       - in: path
+   *         name: username
+   *         required: true
+   *         description: username of the user to retrieve
+   *         schema:
+   *           type: string
+   *     responses:
+   *       200:
+   *        description: Suceess
+   *       500:
+   *         description: Internal Server Error
+   *       400:
+   *        description: Bad Request
+   *       401:
+   *         description: Unauthorized
+   */
+  getUserByUsername: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> => {
+    try {
+      const result: any = await service.getUserByUsername(req.params.username);
+      res.status(result.statusCode).send(result);
+    } catch (error: any) {
+      next(error);
+    }
+  },
+
+  /**
+   * @swagger
+   * /api/user/add:
+   *   post:
+   *     summary: Add a new user
+   *     requestBody:
+   *       description: User data
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               firstname:
+   *                 type: string
+   *               lastname:
+   *                 type: string
+   *               emil:
+   *                 type: string
+   *               contact:
+   *                 type: string
+   *               birthdate:
+   *                 type: string
+   *               username:
+   *                 type: string
+   *               password:
+   *                 type: string
+   *             example:
+   *               firstnme: john
+   *               lastname: doe
+   *               email: john@example.com
+   *               contact: '9966554488'
+   *               birthdata: 30/09/1999
+   *               username: john_doe
+   *               password: john@example123
+   *     responses:
+   *       201:
+   *         description: Created
+   *       200:
+   *        description: Suceess
+   *       500:
+   *         description: Internal Server Error
+   *       400:
+   *        description: Bad Request
+   *       401:
+   *         description: Unauthorized
+   */
   addUser: async (
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<void> => {
+  ): Promise<any> => {
     try {
-      const result = await utils.jwtSign(req.body);
-    //   const result = await utils.jwtVerify(
-    //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdG5hbWUiOiJWaXNoYWwiLCJsYXN0bmFtZSI6Ikxhd3RlIiwiZW1haWwiOiJ2cGxAZ21haWwuY29tIiwiY29udGFjdCI6IjcyMTk4ODczODciLCJiaXJ0aGRhdGUiOiIzMC8wOS8xOTk5IiwiaWF0IjoxNjk0NTQ2NDMwLCJleHAiOjE2OTQ1NDY1NTB9.jsNCAZyMCrsx8IuOQbrbphxrTCe0cmyknXBpfOjVI0s"
-    //   );
-      res.status(200).send({ message: "success", result: result });
+      const result: any = await service.addUser(req.body);
+      res.status(result.statusCode).send(result);
     } catch (error: any) {
       next(error);
     }
   },
-  updateUser: async (req: Request, res: Response, next: NextFunction) => {
+
+  /**
+   * @swagger
+   * /api/user/update:
+   *   put:
+   *     summary: Update a existing user
+   *     parameters:
+   *       - in: path
+   *         name: username
+   *         required: true
+   *         description: username of the user to update
+   *         schema:
+   *           type: string
+   *     requestBody:
+   *       description: User data
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               firstname:
+   *                 type: string
+   *               lastname:
+   *                 type: string
+   *               emil:
+   *                 type: string
+   *               contact:
+   *                 type: string
+   *               birthdate:
+   *                 type: string
+   *               username:
+   *                 type: string
+   *               password:
+   *                 type: string
+   *             example:
+   *               firstnme: john
+   *               lastname: doe
+   *               email: john@example.com
+   *               contact: '9966554488'
+   *               birthdata: 30/09/1999
+   *               username: john_doe
+   *               password: john@example123
+   *     responses:
+   *       201:
+   *         description: Created
+   *       200:
+   *        description: Suceess
+   *       500:
+   *         description: Internal Server Error
+   *       400:
+   *        description: Bad Request
+   *       401:
+   *         description: Unauthorized
+   */
+  updateUser: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> => {
     try {
+      const result: any = await service.updateUser(
+        req.params.username,
+        req.body
+      );
+      res.status(result.statusCode).send(result);
     } catch (error: any) {
       next(error);
     }
   },
-  deleteUser: async (req: Request, res: Response, next: NextFunction) => {
+
+  /**
+   * @swagger
+   * /api/user/delete/{username}:
+   *   delete:
+   *     summary: Delete user by username
+   *     parameters:
+   *       - in: path
+   *         name: username
+   *         required: true
+   *         description: username of the user to delete
+   *         schema:
+   *           type: string
+   *     responses:
+   *       200:
+   *         description: Successful response
+   *       404:
+   *         description: User not found
+   *       500:
+   *         description: Internal Server Error
+   *       400:
+   *        description: Bad Request
+   *       401:
+   *         description: Unauthorized
+   */
+  deleteUser: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> => {
     try {
+      const result: any = await service.deleteUser(req.params.username);
+      res.status(result.statusCode).send(result);
     } catch (error: any) {
       next(error);
     }

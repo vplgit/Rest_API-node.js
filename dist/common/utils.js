@@ -43,7 +43,7 @@ const secretKey = process.env.SERCRET_KEY;
 exports.utils = {
     jwtSign: (payload) => __awaiter(void 0, void 0, void 0, function* () {
         const option = {
-            expiresIn: "1d",
+            expiresIn: "30d",
         };
         const token = jsonwebtoken_1.default.sign(payload, secretKey, option);
         return token;
