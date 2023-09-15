@@ -6,11 +6,11 @@ export class Query {
     try {
       const { username, password } = body;
       let user: any = await User.findOne({ username });
-      user = {
-        ...user.toObject(),
-        _id: user._id.toString(),
-      };
       if (user != null) {
+        user = {
+          ...user.toObject(),
+          _id: user._id.toString(),
+        };
         let isPasswordValid: boolean = await utils.passwordDecrypt(
           password,
           user.password

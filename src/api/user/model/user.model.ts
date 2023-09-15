@@ -26,7 +26,17 @@ export const userSchema = Joi.object({
   lastname: Joi.string().min(2).max(12).required(),
   email: Joi.string().email().required(),
   contact: Joi.string()
-    .pattern(/^[0-9]{9}$/)
+    .min(10)
+    .messages({
+      "string.min": "Contact lenght must be atleast 10 character long",
+    })
+    .max(16)
+    .messages({
+      "string.max":
+        "Contact lenght must be less than or equal to 16 character long",
+    })
+    .regex(/^[0-9()+-]+$/)
+    .messages({ "string.pattern.base": "Contact allowed only 0-9, + - ( )" })
     .required(),
   birthdate: Joi.string().custom(customDateValidator, "Custom date validation"),
   username: Joi.string().min(2).max(12).required(),
@@ -41,7 +51,7 @@ export const userSchema = Joi.object({
 });
 
 export const filterSchema = Joi.object({
-  perpage: Joi.number().integer().positive().default(10),
-  page: Joi.number().integer().positive().default(1),
-  sort: Joi.object().pattern(Joi.string(), Joi.string().valid("asc", "desc")),
+  itemPerPage: Joi.number().integer().positive().default(10),
+  pageNumber: Joi.number().integer().positive().default(1),
+  sortOn: Joi.object().pattern(Joi.string(), Joi.string().valid("asc", "desc")),
 });

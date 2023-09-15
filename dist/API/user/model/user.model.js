@@ -19,7 +19,16 @@ exports.userSchema = joi_1.default.object({
     lastname: joi_1.default.string().min(2).max(12).required(),
     email: joi_1.default.string().email().required(),
     contact: joi_1.default.string()
-        .pattern(/^[0-9]{9}$/)
+        .min(10)
+        .messages({
+        "string.min": "Contact lenght must be atleast 10 character long",
+    })
+        .max(16)
+        .messages({
+        "string.max": "Contact lenght must be less than or equal to 16 character long",
+    })
+        .regex(/^[0-9()+-]+$/)
+        .messages({ "string.pattern.base": "Contact allowed only 0-9, + - ( )" })
         .required(),
     birthdate: joi_1.default.string().custom(customDateValidator, "Custom date validation"),
     username: joi_1.default.string().min(2).max(12).required(),
@@ -29,7 +38,7 @@ exports.userSchema = joi_1.default.object({
         .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")),
 });
 exports.filterSchema = joi_1.default.object({
-    perpage: joi_1.default.number().integer().positive().default(10),
-    page: joi_1.default.number().integer().positive().default(1),
-    sort: joi_1.default.object().pattern(joi_1.default.string(), joi_1.default.string().valid("asc", "desc")),
+    itemPerPage: joi_1.default.number().integer().positive().default(10),
+    pageNumber: joi_1.default.number().integer().positive().default(1),
+    sortOn: joi_1.default.object().pattern(joi_1.default.string(), joi_1.default.string().valid("asc", "desc")),
 });

@@ -29,14 +29,14 @@ class Service {
                 }
                 else {
                     const result = yield query.getUser(body);
-                    if (result != undefined || result != null) {
+                    if ((result != undefined || null) && result.length != 0) {
                         return {
                             statusCode: status_codes_1.statusCodes.suceess,
                             message: messages_1.messages.success,
                             result: result,
                         };
                     }
-                    else if (result.length <= 0) {
+                    else if (result == null || result.length == 0) {
                         return {
                             statusCode: status_codes_1.statusCodes.suceess,
                             message: messages_1.messages.noData,
@@ -53,13 +53,13 @@ class Service {
                 }
             }
             catch (error) {
-                throw new Error(error);
+                throw error;
             }
         });
         this.getUserByUsername = (username) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const result = yield query.getUserByUsername(username);
-                if (result != undefined) {
+                if (result != undefined || null) {
                     return {
                         statusCode: status_codes_1.statusCodes.suceess,
                         message: messages_1.messages.success,
@@ -68,8 +68,8 @@ class Service {
                 }
                 else if (result == null) {
                     return {
-                        statusCode: status_codes_1.statusCodes.suceess,
-                        message: messages_1.messages.noData,
+                        statusCode: status_codes_1.statusCodes.badRequest,
+                        message: messages_1.messages.userNotFound,
                         result: null,
                     };
                 }
@@ -81,7 +81,7 @@ class Service {
                 }
             }
             catch (error) {
-                throw new Error(error);
+                throw error;
             }
         });
         this.addUser = (body) => __awaiter(this, void 0, void 0, function* () {
@@ -96,11 +96,11 @@ class Service {
                 }
                 else {
                     const result = yield query.addUser(body);
-                    if (result != undefined || result != null) {
+                    if (result != undefined || null) {
                         return {
                             statusCode: status_codes_1.statusCodes.suceess,
-                            message: messages_1.messages.success,
-                            result: result,
+                            message: messages_1.messages.dataSaved,
+                            result: { id: result._id },
                         };
                     }
                     else {
@@ -127,14 +127,20 @@ class Service {
                 }
                 else {
                     const result = yield query.updateUser(username, body);
-                    if (result != undefined || result != null) {
+                    if (result != undefined || null) {
                         return {
                             statusCode: status_codes_1.statusCodes.suceess,
-                            message: messages_1.messages.success,
-                            result: result,
+                            message: messages_1.messages.dataUpdated,
+                            result: { id: result._id },
                         };
                     }
-                    else {
+                    else if (result == null) {
+                        return {
+                            statusCode: status_codes_1.statusCodes.badRequest,
+                            error: messages_1.messages.userNotFound,
+                        };
+                    }
+                    {
                         return {
                             statusCode: status_codes_1.statusCodes.internalServerError,
                             error: messages_1.messages.indexedDBnternalServerError,
@@ -143,7 +149,7 @@ class Service {
                 }
             }
             catch (error) {
-                throw new Error(error);
+                throw error;
             }
         });
         this.deleteUser = (username) => __awaiter(this, void 0, void 0, function* () {
@@ -152,11 +158,16 @@ class Service {
                 if (result != undefined || result != null) {
                     return {
                         statusCode: status_codes_1.statusCodes.suceess,
-                        message: messages_1.messages.success,
-                        result: result,
+                        message: messages_1.messages.dataDeleted,
                     };
                 }
-                else {
+                else if (result == null) {
+                    return {
+                        statusCode: status_codes_1.statusCodes.badRequest,
+                        message: messages_1.messages.nothingToDelete,
+                    };
+                }
+                {
                     return {
                         statusCode: status_codes_1.statusCodes.internalServerError,
                         error: messages_1.messages.indexedDBnternalServerError,
@@ -164,7 +175,7 @@ class Service {
                 }
             }
             catch (error) {
-                throw new Error(error);
+                throw error;
             }
         });
     }

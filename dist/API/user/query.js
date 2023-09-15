@@ -16,16 +16,15 @@ class Query {
     constructor() {
         this.getUser = (body) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const { perpage, page, sort } = body;
+                const { itemPerPage, pageNumber, sortOn } = body;
                 const result = yield user_schema_1.User.find()
-                    .skip(perpage * page - perpage)
-                    .limit(perpage)
-                    .sort(sort);
-                return result;
+                    .skip(itemPerPage * pageNumber - itemPerPage)
+                    .limit(itemPerPage)
+                    .sort(sortOn);
                 return result;
             }
             catch (error) {
-                throw new Error(error);
+                throw error;
             }
         });
         this.getUserByUsername = (username) => __awaiter(this, void 0, void 0, function* () {
@@ -34,7 +33,7 @@ class Query {
                 return result;
             }
             catch (error) {
-                throw new Error(error);
+                throw error;
             }
         });
         this.addUser = (body) => __awaiter(this, void 0, void 0, function* () {
@@ -64,7 +63,7 @@ class Query {
                 return result;
             }
             catch (error) {
-                throw new Error(error);
+                throw error;
             }
         });
         this.deleteUser = (username) => __awaiter(this, void 0, void 0, function* () {
@@ -73,7 +72,7 @@ class Query {
                 return result;
             }
             catch (error) {
-                throw new Error(error);
+                throw error;
             }
         });
     }

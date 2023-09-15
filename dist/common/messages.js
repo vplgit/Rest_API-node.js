@@ -11,4 +11,9 @@ exports.messages = {
     notFound: "The requested resource does not exist",
     indexedDBnternalServerError: "An unexpected error occurred on the server",
     noData: "No data to show",
+    dataSaved: "Data saved successfully",
+    dataUpdated: "Data updated successfully",
+    dataDeleted: "Data deleted successfully",
+    nothingToDelete: "Nothing to delete",
+    userNotFound: "User not found",
 };

@@ -18,13 +18,13 @@ export class Service {
       } else {
         const result: any = await query.getUser(body);
 
-        if (result != undefined || result != null) {
+        if ((result != undefined || null) && result.length != 0) {
           return {
             statusCode: statusCodes.suceess,
             message: messages.success,
             result: result,
           };
-        } else if (result.length <= 0) {
+        } else if (result == null || result.length == 0) {
           return {
             statusCode: statusCodes.suceess,
             message: messages.noData,
@@ -39,14 +39,14 @@ export class Service {
         }
       }
     } catch (error: any) {
-      throw new Error(error);
+      throw error;
     }
   };
 
   getUserByUsername = async (username: string): Promise<any> => {
     try {
       const result: any = await query.getUserByUsername(username);
-      if (result != undefined) {
+      if (result != undefined || null) {
         return {
           statusCode: statusCodes.suceess,
           message: messages.success,
@@ -54,8 +54,8 @@ export class Service {
         };
       } else if (result == null) {
         return {
-          statusCode: statusCodes.suceess,
-          message: messages.noData,
+          statusCode: statusCodes.badRequest,
+          message: messages.userNotFound,
           result: null,
         };
       } else {
@@ -65,7 +65,7 @@ export class Service {
         };
       }
     } catch (error: any) {
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -80,11 +80,11 @@ export class Service {
         };
       } else {
         const result = await query.addUser(body);
-        if (result != undefined || result != null) {
+        if (result != undefined || null) {
           return {
             statusCode: statusCodes.suceess,
-            message: messages.success,
-            result: result,
+            message: messages.dataSaved,
+            result: { id: result._id },
           };
         } else {
           return {
@@ -109,13 +109,19 @@ export class Service {
         };
       } else {
         const result: any = await query.updateUser(username, body);
-        if (result != undefined || result != null) {
+        if (result != undefined || null) {
           return {
             statusCode: statusCodes.suceess,
-            message: messages.success,
-            result: result,
+            message: messages.dataUpdated,
+            result: { id: result._id },
           };
-        } else {
+        } else if (result == null) {
+          return {
+            statusCode: statusCodes.badRequest,
+            error: messages.userNotFound,
+          };
+        }
+        {
           return {
             statusCode: statusCodes.internalServerError,
             error: messages.indexedDBnternalServerError,
@@ -123,7 +129,7 @@ export class Service {
         }
       }
     } catch (error: any) {
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -133,17 +139,22 @@ export class Service {
       if (result != undefined || result != null) {
         return {
           statusCode: statusCodes.suceess,
-          message: messages.success,
-          result: result,
+          message: messages.dataDeleted,
         };
-      } else {
+      } else if (result == null) {
+        return {
+          statusCode: statusCodes.badRequest,
+          message: messages.nothingToDelete,
+        };
+      }
+      {
         return {
           statusCode: statusCodes.internalServerError,
           error: messages.indexedDBnternalServerError,
         };
       }
     } catch (error: any) {
-      throw new Error(error);
+      throw error;
     }
   };
 }

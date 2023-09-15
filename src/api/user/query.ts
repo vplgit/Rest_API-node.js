@@ -4,15 +4,14 @@ import { utils } from "../../common/utils";
 export class Query {
   getUser = async (body: any) => {
     try {
-      const { perpage, page, sort } = body;
+      const { itemPerPage, pageNumber, sortOn } = body;
       const result = await User.find()
-        .skip(perpage * page - perpage)
-        .limit(perpage)
-        .sort(sort);
-      return result;
+        .skip(itemPerPage * pageNumber - itemPerPage)
+        .limit(itemPerPage)
+        .sort(sortOn);
       return result;
     } catch (error: any) {
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -21,7 +20,7 @@ export class Query {
       const result = await User.findOne({ username: username });
       return result;
     } catch (error: any) {
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -55,7 +54,7 @@ export class Query {
       );
       return result;
     } catch (error: any) {
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -64,7 +63,7 @@ export class Query {
       const result: any = await User.findOneAndDelete({ username: username });
       return result;
     } catch (error: any) {
-      throw new Error(error);
+      throw error;
     }
   };
 }

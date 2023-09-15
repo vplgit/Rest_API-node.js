@@ -18,8 +18,8 @@ class Query {
             try {
                 const { username, password } = body;
                 let user = yield user_schema_1.User.findOne({ username });
-                user = Object.assign(Object.assign({}, user.toObject()), { _id: user._id.toString() });
                 if (user != null) {
+                    user = Object.assign(Object.assign({}, user.toObject()), { _id: user._id.toString() });
                     let isPasswordValid = yield utils_1.utils.passwordDecrypt(password, user.password);
                     if (isPasswordValid) {
                         const token = yield utils_1.utils.jwtSign(user);
