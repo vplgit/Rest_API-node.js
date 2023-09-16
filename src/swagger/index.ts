@@ -15,8 +15,15 @@ const options = {
         url: `http://localhost:${port}`,
       },
     ],
+    securityDefinitions: {
+      bearerAuth: {
+        type: "http",
+        scheme: "bearer",
+        bearerFormat: "JWT",
+      },
+    },
   },
-  apis: ["src/api/user/controller.ts"], // Path to the API routes
+  apis: ["src/api/*/controller.ts"], // Path to the API routes
 };
 
 export const specs = swaggerJsdoc(options);

@@ -15,6 +15,7 @@ const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     var _a;
     try {
         const token = req.headers.authorization;
+        console.log("Toekn : ", token);
         const result = yield utils_1.utils.jwtVerify((_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(" ")[1]);
         next();
     }

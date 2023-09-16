@@ -13,6 +13,38 @@ exports.Controller = void 0;
 const service_1 = require("./service");
 const service = new service_1.Service();
 exports.Controller = {
+    /**
+     * @swagger
+     * /api/auth/login:
+     *   post:
+     *     tags:
+     *       - Login
+     *     summary: User Login
+     *     requestBody:
+     *       description: User credentials
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             properties:
+     *               username:
+     *                 type: string
+     *               pssword:
+     *                 type: string
+     *             example:
+     *               username: user
+     *               password: User@123
+     *     responses:
+     *       200:
+     *        description: Suceess
+     *       500:
+     *         description: Internal Server Error
+     *       400:
+     *        description: Bad Request
+     *       401:
+     *         description: Unauthorized
+     */
     login: (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const result = yield service.login(req.body);

@@ -17,6 +17,8 @@ exports.Controller = {
      * @swagger
      * /api/user/list:
      *   post:
+     *     tags:
+     *       - User
      *     summary: List user
      *     requestBody:
      *       description: User data
@@ -63,6 +65,8 @@ exports.Controller = {
      * @swagger
      * /api/user/get/{username}:
      *   get:
+     *     tags:
+     *       - User
      *     summary: Get user by username
      *     parameters:
      *       - in: path
@@ -94,6 +98,8 @@ exports.Controller = {
      * @swagger
      * /api/user/add:
      *   post:
+     *     tags:
+     *       - User
      *     summary: Add a new user
      *     requestBody:
      *       description: User data
@@ -150,6 +156,8 @@ exports.Controller = {
      * @swagger
      * /api/user/update:
      *   put:
+     *     tags:
+     *       - User
      *     summary: Update a existing user
      *     parameters:
      *       - in: path
@@ -213,6 +221,8 @@ exports.Controller = {
      * @swagger
      * /api/user/delete/{username}:
      *   delete:
+     *     tags:
+     *       - User
      *     summary: Delete user by username
      *     parameters:
      *       - in: path

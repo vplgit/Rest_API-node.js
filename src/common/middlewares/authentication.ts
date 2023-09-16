@@ -6,8 +6,6 @@ export const verifyToken = async (
   next: NextFunction
 ) => {
   try {
-    const token = req.headers.authorization;
-
     const result = await utils.jwtVerify(
       req.headers.authorization?.split(" ")[1]
     );
