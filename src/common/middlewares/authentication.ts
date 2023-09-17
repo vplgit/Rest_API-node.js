@@ -1,15 +1,17 @@
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
 import { utils } from "../../common/utils";
 export const verifyToken = async (
-  req: Request,
+  req: any,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const result = await utils.jwtVerify(
-      req.headers.authorization?.split(" ")[1]
-    );
-    next();
+    if (req.isUserAvailable != undefined && req.isUserAvailable == false) {
+      next();
+    } else {
+      await utils.jwtVerify(req.headers.authorization?.split(" ")[1]);
+      next();
+    }
   } catch (error) {
     next(error);
   }

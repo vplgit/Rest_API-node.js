@@ -14,10 +14,13 @@ const utils_1 = require("../../common/utils");
 const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
-        const token = req.headers.authorization;
-        console.log("Toekn : ", token);
-        const result = yield utils_1.utils.jwtVerify((_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(" ")[1]);
-        next();
+        if (req.isUserAvailable != undefined && req.isUserAvailable == false) {
+            next();
+        }
+        else {
+            yield utils_1.utils.jwtVerify((_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(" ")[1]);
+            next();
+        }
     }
     catch (error) {
         next(error);

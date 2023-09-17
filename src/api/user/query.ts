@@ -66,4 +66,13 @@ export class Query {
       throw error;
     }
   };
+
+  isUserAvailable = async () => {
+    try {
+      const result: any = await User.estimatedDocumentCount();
+      return result;
+    } catch (error: any) {
+      throw error;
+    }
+  };
 }

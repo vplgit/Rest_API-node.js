@@ -75,6 +75,15 @@ class Query {
                 throw error;
             }
         });
+        this.isUserAvailable = () => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield user_schema_1.User.estimatedDocumentCount();
+                return result;
+            }
+            catch (error) {
+                throw error;
+            }
+        });
     }
 }
 exports.Query = Query;

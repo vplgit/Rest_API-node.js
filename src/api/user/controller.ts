@@ -1,7 +1,5 @@
 import { Service } from "./service";
-import { utils } from "../../common/utils";
 import { Request, Response, NextFunction } from "express";
-import { UserInterface } from "./model/user.model";
 const service = new Service();
 export const Controller = {
   /**
