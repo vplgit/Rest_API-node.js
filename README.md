@@ -1,4 +1,6 @@
 # Rest_API-node.js
-This repo will provide all CRUD operations through node js api's
+This is a typescript node js application written to create api endpoints to perform CRUD operation on user. 
 
- check swagger api document on : [http://localhost:3000/api-docs/]
+To start appplication use : npm run start 
+Base Url : [http://localhost:3000]
+To check Swagger UI document : [http://localhost:3000/api-docs/]
