@@ -20,11 +20,14 @@ const options = {
                 url: `http://localhost:${port}`,
             },
         ],
-        securityDefinitions: {
-            bearerAuth: {
-                type: "http",
-                scheme: "bearer",
-                bearerFormat: "JWT",
+        components: {
+            securitySchemes: {
+                Authorization: {
+                    type: "http",
+                    scheme: "bearer",
+                    bearerFormat: "JWT",
+                    value: "Bearer <JWT token here>",
+                },
             },
         },
     },

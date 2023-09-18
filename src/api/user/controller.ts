@@ -6,6 +6,8 @@ export const Controller = {
    * @swagger
    * /api/user/list:
    *   post:
+   *     security:
+   *       - Authorization: []
    *     tags:
    *       - User
    *     summary: List user
@@ -17,19 +19,19 @@ export const Controller = {
    *           schema:
    *             type: object
    *             properties:
-   *               perpage:
+   *               itemPerPage:
    *                 type: integer
-   *               page:
+   *               pageNumber:
    *                 type: integer
-   *               sort:
+   *               sortOn:
    *                 properties:
-   *                    firstname:
+   *                    firstnme:
    *                      type: string
    *             example:
-   *               perpage: 1
-   *               page: 1
-   *               sort: {
-   *                firstname : asc
+   *               itemPerPage: 10
+   *               pageNumber: 1
+   *               sortOn: {
+   *                firstnme : asc
    *               }
    *     responses:
    *       200:
@@ -58,6 +60,8 @@ export const Controller = {
    * @swagger
    * /api/user/get/{username}:
    *   get:
+   *     security:
+   *       - Authorization: []
    *     tags:
    *       - User
    *     summary: Get user by username
@@ -95,6 +99,8 @@ export const Controller = {
    * @swagger
    * /api/user/add:
    *   post:
+   *     security:
+   *       - Authorization: []
    *     tags:
    *       - User
    *     summary: Add a new user
@@ -110,7 +116,7 @@ export const Controller = {
    *                 type: string
    *               lastname:
    *                 type: string
-   *               emil:
+   *               email:
    *                 type: string
    *               contact:
    *                 type: string
@@ -121,11 +127,11 @@ export const Controller = {
    *               password:
    *                 type: string
    *             example:
-   *               firstnme: john
+   *               firstname: john
    *               lastname: doe
    *               email: john@example.com
    *               contact: '9966554488'
-   *               birthdata: 30/09/1999
+   *               birthdate: 30/09/1999
    *               username: john_doe
    *               password: john@example123
    *     responses:
@@ -157,6 +163,8 @@ export const Controller = {
    * @swagger
    * /api/user/update:
    *   put:
+   *     security:
+   *       - Authorization: []
    *     tags:
    *       - User
    *     summary: Update a existing user
@@ -179,7 +187,7 @@ export const Controller = {
    *                 type: string
    *               lastname:
    *                 type: string
-   *               emil:
+   *               email:
    *                 type: string
    *               contact:
    *                 type: string
@@ -229,6 +237,8 @@ export const Controller = {
    * @swagger
    * /api/user/delete/{username}:
    *   delete:
+   *     security:
+   *       - Authorization: []
    *     tags:
    *       - User
    *     summary: Delete user by username

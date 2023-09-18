@@ -39,7 +39,9 @@ custome_namespace.on("connection", (socket) => {
 //request routes
 app.use("/api", require("./api"));
 // Use Swagger UI middleware to serve API documentation
-app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_1.specs));
+app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_1.specs, {
+    explorer: true,
+}));
 app.use(error_handler_1.errror_handler);
 // Start the server
 const PORT = process.env.PORT || 3000;

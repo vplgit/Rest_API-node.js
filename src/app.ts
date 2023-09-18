@@ -41,7 +41,13 @@ custome_namespace.on("connection", (socket) => {
 //request routes
 app.use("/api", require("./api"));
 // Use Swagger UI middleware to serve API documentation
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(specs, {
+    explorer: true,
+  })
+);
 app.use(errror_handler);
 
 // Start the server

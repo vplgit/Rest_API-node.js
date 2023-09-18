@@ -20,7 +20,10 @@ export class Query {
 
   getUserByUsername = async (username: string) => {
     try {
-      const result = await User.findOne({ username: username });
+      const result = await User.findOne(
+        { username: username },
+        "firstname lastname email contact birthdate username"
+      );
       return result;
     } catch (error: any) {
       throw error;

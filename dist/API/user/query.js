@@ -29,7 +29,7 @@ class Query {
         });
         this.getUserByUsername = (username) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const result = yield user_schema_1.User.findOne({ username: username });
+                const result = yield user_schema_1.User.findOne({ username: username }, "firstname lastname email contact birthdate username");
                 return result;
             }
             catch (error) {
