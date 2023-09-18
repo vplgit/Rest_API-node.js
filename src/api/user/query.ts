@@ -5,7 +5,10 @@ export class Query {
   getUser = async (body: any) => {
     try {
       const { itemPerPage, pageNumber, sortOn } = body;
-      const result = await User.find()
+      const result = await User.find(
+        {},
+        "firstname lastname email contact birthdate username"
+      )
         .skip(itemPerPage * pageNumber - itemPerPage)
         .limit(itemPerPage)
         .sort(sortOn);

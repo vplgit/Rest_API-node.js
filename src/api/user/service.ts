@@ -2,7 +2,7 @@ import { Query } from "./query";
 import { UserInterface } from "./model/user.model";
 import { messages } from "../../common/messages";
 import { statusCodes } from "../../common/status_codes";
-import { userSchema, filterSchema } from "./model/user.model";
+import { userSchema, filterSchema, userUpdateSchema } from "./model/user.model";
 const query = new Query();
 export class Service {
   getUser = async (body: any): Promise<any> => {
@@ -100,7 +100,7 @@ export class Service {
 
   updateUser = async (username: string, body: any): Promise<any> => {
     try {
-      const { error } = userSchema.validate(body);
+      const { error } = userUpdateSchema.validate(body);
       if (error) {
         return {
           statusCode: statusCodes.badRequest,

@@ -49,6 +49,32 @@ export const userSchema = Joi.object({
       )
     ),
 });
+export const userUpdateSchema = Joi.object({
+  firstname: Joi.string().min(2).max(12),
+  lastname: Joi.string().min(2).max(12),
+  email: Joi.string().email(),
+  contact: Joi.string()
+    .min(10)
+    .messages({
+      "string.min": "Contact lenght must be atleast 10 character long",
+    })
+    .max(16)
+    .messages({
+      "string.max":
+        "Contact lenght must be less than or equal to 16 character long",
+    })
+    .regex(/^[0-9()+-]+$/)
+    .messages({ "string.pattern.base": "Contact allowed only 0-9, + - ( )" }),
+  birthdate: Joi.string().custom(customDateValidator, "Custom date validation"),
+  username: Joi.string().min(2).max(12),
+  password: Joi.string()
+    .min(8)
+    .pattern(
+      new RegExp(
+        "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
+      )
+    ),
+});
 
 export const filterSchema = Joi.object({
   itemPerPage: Joi.number().integer().positive().default(10),

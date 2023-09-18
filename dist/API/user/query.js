@@ -17,7 +17,7 @@ class Query {
         this.getUser = (body) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const { itemPerPage, pageNumber, sortOn } = body;
-                const result = yield user_schema_1.User.find()
+                const result = yield user_schema_1.User.find({}, "firstname lastname email contact birthdate username")
                     .skip(itemPerPage * pageNumber - itemPerPage)
                     .limit(itemPerPage)
                     .sort(sortOn);

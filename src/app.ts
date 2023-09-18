@@ -29,7 +29,6 @@ custome_namespace.on("connection", (socket) => {
   // Listen for events from the client
   socket.on("chat message", (message) => {
     console.log("Message from client: " + message);
-
     // Broadcast the message to all connected clients
     custome_namespace.emit("chat message", message);
   });

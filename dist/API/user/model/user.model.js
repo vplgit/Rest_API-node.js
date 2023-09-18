@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.filterSchema = exports.userSchema = void 0;
+exports.filterSchema = exports.userUpdateSchema = exports.userSchema = void 0;
 const joi_1 = __importDefault(require("joi"));
 const moment_1 = __importDefault(require("moment"));
 //Custome validation for date field for format DD/MM/YYYY
@@ -35,6 +35,27 @@ exports.userSchema = joi_1.default.object({
     password: joi_1.default.string()
         .min(8)
         .required()
+        .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")),
+});
+exports.userUpdateSchema = joi_1.default.object({
+    firstname: joi_1.default.string().min(2).max(12),
+    lastname: joi_1.default.string().min(2).max(12),
+    email: joi_1.default.string().email(),
+    contact: joi_1.default.string()
+        .min(10)
+        .messages({
+        "string.min": "Contact lenght must be atleast 10 character long",
+    })
+        .max(16)
+        .messages({
+        "string.max": "Contact lenght must be less than or equal to 16 character long",
+    })
+        .regex(/^[0-9()+-]+$/)
+        .messages({ "string.pattern.base": "Contact allowed only 0-9, + - ( )" }),
+    birthdate: joi_1.default.string().custom(customDateValidator, "Custom date validation"),
+    username: joi_1.default.string().min(2).max(12),
+    password: joi_1.default.string()
+        .min(8)
         .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")),
 });
 exports.filterSchema = joi_1.default.object({

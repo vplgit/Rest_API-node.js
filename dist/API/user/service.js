@@ -117,7 +117,7 @@ class Service {
         });
         this.updateUser = (username, body) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const { error } = user_model_1.userSchema.validate(body);
+                const { error } = user_model_1.userUpdateSchema.validate(body);
                 if (error) {
                     return {
                         statusCode: status_codes_1.statusCodes.badRequest,
